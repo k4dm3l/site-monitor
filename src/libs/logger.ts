@@ -6,7 +6,7 @@ const logger = winston.createLogger({
   format: winston.format.combine(winston.format.cli()),
   transports: [
     new winston.transports.File({
-      filename: 'logs/system.log',
+      filename: 'logs/error.log',
       level: 'error',
       format: winston.format.combine(
         winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
@@ -16,7 +16,7 @@ const logger = winston.createLogger({
       ),
     }),
     new winston.transports.File({
-      filename: 'logs/error.log',
+      filename: 'logs/system.log',
       format: winston.format.combine(winston.format.cli()),
     }),
   ],

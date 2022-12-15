@@ -8,4 +8,5 @@ export default {
   CORS: process.env.CORS || '*',
   MAX_REQUEST_RATE_LIMIT: process.env.MAX_REQUEST_RATE_LIMIT || 5,
   MAX_TIMEOUT_RATE_LIMIT: process.env.MAX_TIMEOUT_RATE_LIMIT || 15000,
+  MONGO_DB_CONNECTION: process.env.MONGO_DB_CONNECTION || '',
 };

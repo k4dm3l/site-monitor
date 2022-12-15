@@ -1,8 +1,19 @@
-import { IServerInitializationContract, IUtilitiesContract } from './shared/interfaces';
+import { IServerInitializationContract, IUtilitiesContract, IMongoDBContract } from './shared/interfaces';
 
-const ServerInitialization = ({ utilities }: { utilities: IUtilitiesContract }): IServerInitializationContract => ({
-  startServer: ({
-    expressApplication, port, logger, environment,
+const ServerInitialization = ({
+  utilities,
+  mongoDB,
+}: {
+  utilities: IUtilitiesContract,
+  mongoDB: IMongoDBContract
+}): IServerInitializationContract => ({
+  startServer: async ({
+    expressApplication,
+    port,
+    logger,
+    environment,
+    dbConnectionString,
+    dbConnectionOptions,
   }) => {
     try {
       const normalizedPort = utilities.normalizePort(port);
@@ -14,14 +25,19 @@ const ServerInitialization = ({ utilities }: { utilities: IUtilitiesContract }):
           logger.info(`Environment ${environment}`);
           logger.info(`Server running on http://localhost:${port}`);
         });
+
+        await mongoDB.connectMongoDB({
+          connectionURL: dbConnectionString,
+          options: dbConnectionOptions,
+        });
       }
     } catch (error) {
       process.on('uncaughtException', () => utilities.handlerFatalException);
       process.on('unhandledRejection', () => utilities.handlerFatalException);
 
       /** Close DB connections - MongoDB */
-      process.on('SIGINT', () => logger.info('Close DB connection PROMISE!!'));
-      process.on('SIGTERM', () => logger.info('Close DB connection PROMISE!!'));
+      process.on('SIGINT', () => mongoDB.closeMongoDBConnectionCrashNodeProcess);
+      process.on('SIGTERM', () => mongoDB.closeMongoDBConnectionCrashNodeProcess);
 
       logger.error(error);
     }
