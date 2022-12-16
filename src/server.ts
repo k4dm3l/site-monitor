@@ -1,19 +1,24 @@
-import { IServerInitializationContract, IUtilitiesContract, IMongoDBContract } from './shared/interfaces';
+import {
+  IServerInitializationContract, IUtilitiesContract, IMongoDBContract, IRedisDBContract,
+} from './shared/interfaces';
 
 const ServerInitialization = ({
   utilities,
   mongoDB,
+  redisDB,
 }: {
-  utilities: IUtilitiesContract,
-  mongoDB: IMongoDBContract
+  utilities: IUtilitiesContract;
+  mongoDB: IMongoDBContract;
+  redisDB: IRedisDBContract;
 }): IServerInitializationContract => ({
   startServer: async ({
     expressApplication,
     port,
     logger,
     environment,
-    dbConnectionString,
-    dbConnectionOptions,
+    mongoDBConnectionString,
+    mongoDBConnectionOptions,
+    redisDBConnectionString,
   }) => {
     try {
       const normalizedPort = utilities.normalizePort(port);
@@ -26,9 +31,13 @@ const ServerInitialization = ({
           logger.info(`Server running on http://localhost:${port}`);
         });
 
+        if (redisDBConnectionString) {
+          await redisDB.connectRedisDB(redisDBConnectionString);
+        }
+
         await mongoDB.connectMongoDB({
-          connectionURL: dbConnectionString,
-          options: dbConnectionOptions,
+          connectionURL: mongoDBConnectionString,
+          options: mongoDBConnectionOptions,
         });
       }
     } catch (error) {
@@ -38,8 +47,6 @@ const ServerInitialization = ({
       /** Close DB connections - MongoDB */
       process.on('SIGINT', () => mongoDB.closeMongoDBConnectionCrashNodeProcess);
       process.on('SIGTERM', () => mongoDB.closeMongoDBConnectionCrashNodeProcess);
-
-      logger.error(error);
     }
   },
 });
