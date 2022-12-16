@@ -4,6 +4,8 @@ import { Logger } from 'winston';
 import ServerError from '../shared/errors/ServerError';
 import { IMongoDBContract } from '../shared/interfaces';
 
+mongoose.set('strictQuery', false);
+
 const MongoDB = ({ logger }: {logger: Logger}): IMongoDBContract => ({
   connectMongoDB: async ({ connectionURL, options }) => {
     try {
