@@ -1,6 +1,21 @@
+import { Router } from 'express';
 import {
   IServerInitializationContract, IUtilitiesContract, IMongoDBContract, IRedisDBContract,
 } from './shared/interfaces';
+import { notFoundErrorHandler, logError } from './middlewares/errorHandler';
+
+/** Models */
+import UserModel from './models/user';
+
+/** Services */
+import userServiceFactory from './components/user/services';
+
+/** Controllers */
+import getUserController from './components/user/controllers/getUserController';
+import createUserController from './components/user/controllers/createUserController';
+
+/** Routers */
+import userRouter from './components/user/router';
 
 const ServerInitialization = ({
   utilities,
@@ -26,6 +41,27 @@ const ServerInitialization = ({
       if (!normalizedPort) {
         throw new Error('Invalid port');
       } else {
+        /** Services initialization */
+        const userService = userServiceFactory({ userModel: UserModel, logger });
+
+        /** Controllers initialization */
+        const getUser = getUserController({ userService });
+        const createUser = createUserController({ userService });
+
+        /** Routes */
+        const router = Router();
+        expressApplication.use('/user', userRouter({
+          router,
+          getUserController: getUser,
+          createUserController: createUser,
+        }));
+
+        /** Not Found Error Handler */
+        expressApplication.use(notFoundErrorHandler);
+
+        /** Error Handler - Logger */
+        expressApplication.use(logError);
+
         expressApplication.listen(normalizedPort, () => {
           logger.info(`Environment ${environment}`);
           logger.info(`Server running on http://localhost:${port}`);

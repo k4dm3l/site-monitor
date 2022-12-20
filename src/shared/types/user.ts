@@ -1,6 +1,4 @@
-import { Document } from 'mongoose';
-
-type UserDocument = Document & {
+type User = {
   firstName: string;
   lastName: string;
   email: string;
@@ -10,4 +8,4 @@ type UserDocument = Document & {
   tosAgreement: boolean;
 }
 
-export default UserDocument;
+export default User;

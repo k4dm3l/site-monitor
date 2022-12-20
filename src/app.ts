@@ -4,7 +4,6 @@ import helmet from 'helmet';
 import cors from 'cors';
 
 import Cors from './configs/cors';
-import { notFoundErrorHandler, logError } from './middlewares/errorHandler';
 import rateLimiter from './middlewares/rateLimiterHandler';
 
 const app: Application = express();
@@ -22,13 +21,5 @@ app.get('/', (request: Request, response: Response) => response.status(200).send
 app.get('/health-check', (request: Request, response: Response) => {
   response.status(200).json({ status: 200, message: 'Health Check', data: {} });
 });
-
-/** Router */
-
-/** Not Found Error Handler */
-app.use(notFoundErrorHandler);
-
-/** Error Handler - Logger */
-app.use(logError);
 
 export default app;
