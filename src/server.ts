@@ -42,7 +42,7 @@ const ServerInitialization = ({
         throw new Error('Invalid port');
       } else {
         /** Services initialization */
-        const userService = userServiceFactory({ userModel: UserModel, logger });
+        const userService = userServiceFactory({ userModel: UserModel });
 
         /** Controllers initialization */
         const getUser = getUserController({ userService });

@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import { Logger } from 'winston';
 
 import { IGetUserContract } from '../../../shared/interfaces';
 
@@ -12,10 +11,8 @@ import NotFoundError from '../../../shared/errors/NotFoundError';
 
 const getUserFactory = ({
   userModel,
-  logger,
 }: {
   userModel: mongoose.Model<any>;
-  logger: Logger;
 }): IGetUserContract => ({
   getUserById: async (id) => {
     if (!id) {
