@@ -17,6 +17,9 @@ import createUserController from './components/user/controllers/createUserContro
 /** Routers */
 import userRouter from './components/user/router';
 
+/** Utilities */
+import Crypt from './libs/crypt';
+
 const ServerInitialization = ({
   utilities,
   mongoDB,
@@ -41,8 +44,11 @@ const ServerInitialization = ({
       if (!normalizedPort) {
         throw new Error('Invalid port');
       } else {
+        /** Utilities */
+        const crypt = Crypt();
+
         /** Services initialization */
-        const userService = userServiceFactory({ userModel: UserModel });
+        const userService = userServiceFactory({ userModel: UserModel, crypt });
 
         /** Controllers initialization */
         const getUser = getUserController({ userService });

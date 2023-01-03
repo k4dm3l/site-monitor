@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-import { ICreateUserContract } from '../../../shared/interfaces';
+import { ICreateUserContract, ICryptContract } from '../../../shared/interfaces';
 
 import entityError from '../../../shared/enums/entityError';
 import levelError from '../../../shared/enums/levelError';
@@ -10,11 +10,14 @@ import ServerError from '../../../shared/errors/BusinessError';
 
 const createUserFactory = ({
   userModel,
+  crypt,
 }: {
   userModel: mongoose.Model<any>;
+  crypt: ICryptContract;
 }): ICreateUserContract => ({
   createUser: async (newUser) => {
-    const createdUser = await userModel.create({ ...newUser });
+    const hashPassword = await crypt.hashPassword(newUser.hashPassword);
+    const createdUser = await userModel.create({ ...newUser, hashPassword });
 
     if (!createdUser) {
       throw new ServerError(`${entityError.USER}-${levelError.SERVICE}-${operationTypeError.GET_DB}: Not able to create new user`);

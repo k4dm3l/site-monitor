@@ -6,7 +6,7 @@ import env from '../configs';
 import UserDocument from '../shared/types/user';
 
 const verifyToken = (
-  request: Request & { user: Partial<UserDocument> },
+  request: Request,
   response: Response,
   next: NextFunction,
 ) => {
@@ -16,7 +16,8 @@ const verifyToken = (
   if (!token.startsWith('Bearer ')) throw boom.unauthorized('No valid authentication');
 
   const tokenArray = token.split(' ');
-  request.user = jwt.verify(tokenArray[1], env.JWT_TOKEN_SECRET) as Partial<UserDocument>;
+
+  response.locals = jwt.verify(tokenArray[1], env.JWT_TOKEN_SECRET) as Partial<UserDocument>;
 
   next();
 };

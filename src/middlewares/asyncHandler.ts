@@ -1,11 +1,14 @@
-import { Request, Response, NextFunction } from 'express';
+import {
+  Request, Response, NextFunction, RequestHandler,
+} from 'express';
+import { errorFormatter } from './errorHandler';
 
 const asyncHandler = (
-  fn:any,
+  fn:RequestHandler,
 ) => (
   request:Request,
   response: Response,
   next:NextFunction,
-) => Promise.resolve(fn(request, response, next)).catch(next);
+) => Promise.resolve(fn(request, response, next)).catch((error) => next(errorFormatter(error)));
 
 export default asyncHandler;

@@ -12,4 +12,5 @@ export default {
   REDIS_DB_CONNECTION: process.env.REDIS_DB_CONNECTION || 'redis://localhost:6379',
   JWT_TOKEN_SECRET: process.env.JWT_TOKEN_SECRET || 'test',
   JWT_EXPIRATION_TIME: process.env.JWT_EXPIRATION_TIME || '2h',
+  CRYPT_ROUNDS: process.env.CRYPT_ROUNDS || 10,
 };

@@ -6,3 +6,6 @@ export * from './ITokenContract';
 export * from './IGetUserContract';
 export * from './ICreateUserContract';
 export * from './IUserServiceContract';
+export * from './IGetTokenContract';
+export * from './ICryptContract';
+export * from './IAuthenticationServiceContract';
