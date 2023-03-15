@@ -1,3 +1,6 @@
 import { IGetTokenContract } from './IGetTokenContract';
+import { IRecoveryPasswordContract } from './IRecoveryPasswordContract';
+import { IUpdatePasswordContract } from './IUpdatePasswordContract';
 
-export type IAuthenticationServiceContract = IGetTokenContract
+export interface IAuthenticationServiceContract
+  extends IGetTokenContract, IRecoveryPasswordContract, IUpdatePasswordContract {}

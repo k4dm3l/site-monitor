@@ -1,5 +1,7 @@
 import boom from '@hapi/boom';
-import { Request, Response, NextFunction } from 'express';
+import {
+  Request, Response, NextFunction, Application,
+} from 'express';
 
 import env from '../configs';
 import logger from '../libs/logger';

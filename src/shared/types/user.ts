@@ -6,6 +6,7 @@ type User = {
   countryCode: string;
   hashPassword: string;
   tosAgreement: boolean;
+  active: true;
 }
 
 export default User;

@@ -1,18 +1,21 @@
 import { RequestHandler, Request, Response } from 'express';
 
-import { IUserServiceContract } from '../../../shared/interfaces';
+import { IUserServiceContract, IResponseContract } from '../../../shared/interfaces';
 
 const getUserController = ({
   userService,
+  responseFormat,
 }: {
   userService: IUserServiceContract
+  responseFormat: IResponseContract
 }): RequestHandler => async (
   request: Request,
   response: Response,
 ): Promise<void> => {
   const user = await userService.getUserById(request.params.id);
 
-  response.status(200).json({
+  responseFormat.formatResponse({
+    response,
     status: 200,
     data: { ...user },
   });
