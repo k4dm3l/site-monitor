@@ -1,5 +1,9 @@
 import { RedisClientType } from 'redis';
 
+export interface IRedisObjectAlertHistory {
+  alertId: string
+}
+
 export interface IRedisDBContract {
   connectRedisDB: (redisURLDBConenction: string) => Promise<RedisClientType | null>;
   get: (key: string, client:RedisClientType) => Promise<string | null>;
@@ -7,12 +11,16 @@ export interface IRedisDBContract {
     key,
     client,
     value,
-    expirationTime,
+    expirationSeconds,
   }: {
     key: string,
     client: RedisClientType,
     value: any
-    expirationTime?: number,
+    expirationSeconds?: number,
   }) => Promise<void>;
   del: (key: string, client:RedisClientType) => Promise<void>;
+  searchObjectsByProperty?: (
+    searchParam: string,
+    client:RedisClientType
+  ) => Promise<IRedisObjectAlertHistory[]>
 }

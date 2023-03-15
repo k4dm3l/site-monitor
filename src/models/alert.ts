@@ -2,6 +2,7 @@ import mongoose, { Schema } from 'mongoose';
 
 import Methods from '../shared/enums/methods';
 import Protocols from '../shared/enums/protocols';
+import AlertStatus from '../shared/enums/alertStatus';
 
 const alertSchema = new Schema({
   protocol: {
@@ -21,6 +22,10 @@ const alertSchema = new Schema({
     required: true,
     trim: true,
   },
+  name: {
+    type: String,
+    required: true,
+  },
   successCodes: [],
   timeoutSeconds: {
     type: Number,
@@ -32,10 +37,7 @@ const alertSchema = new Schema({
   status: {
     type: String,
     required: true,
-    enum: {
-      up: 'UP',
-      down: 'DOWN',
-    },
+    enum: AlertStatus,
   },
   lastCheckAlert: Date,
   user: {
@@ -43,6 +45,11 @@ const alertSchema = new Schema({
     ref: 'User',
     required: true,
     index: true,
+  },
+  active: {
+    type: Boolean,
+    required: true,
+    default: true,
   },
 }, {
   timestamps: true,
