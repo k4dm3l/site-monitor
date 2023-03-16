@@ -2,7 +2,7 @@
 
 Project written in NodeJS v18.12.1 with Typescript, which consists of a system for monitoring websites by creating alerts, which consist of the definition of HTTP states which would indicate that the website to be monitored is functioning normally.
 
-## Used libraries
+## Used libraries 📦 🪛
 - @hapi/boom
 - @sentry/node
 - @sentry/tracing
@@ -23,8 +23,8 @@ Project written in NodeJS v18.12.1 with Typescript, which consists of a system f
 - ts-joi-objectid
 - winston
 
-## Why?
+## Why? 🤔
 Some of the purposes of the project is to apply new concepts and reinforce others like dependency injection pattern, as well as to test some interesting libraries like bull, which is used to run tasks and work with concurrency.
 
-## Feedback
+## Feedback 👐
 As always any feedback on the project will be welcome, I hope to be able to make improvements and add more features soon.
