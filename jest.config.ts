@@ -11,4 +11,12 @@ export default {
     '**/tests/**/*.test.ts',
   ],
   testEnvironment: 'node',
+  testPathIgnorePatterns: [
+    'dist',
+  ],
+  collectCoverage: true,
+  collectCoverageFrom: [
+    'src/**/*.ts',
+    '!src/components/alert/services/index.ts',
+  ],
 };
